@@ -11,7 +11,7 @@ variables:
   templateFile: 'vm-iis-template.json'
   parametersFile: 'vm-iis-parameters.json'
   indexUrl: 'https://raw.githubusercontent.com/lmlpuc/lmlarm003/refs/heads/main/src/index.html'
-  scriptUrl: 'https://raw.githubusercontent.com/lmlpuc/lmlarm003/main/scripts/site.ps1' # Verifique se esta URL está correta
+  scriptUrl: 'https://raw.githubusercontent.com/lmlpuc/lmlarm003/refs/heads/main/src/scripts/site.ps1' # Verifique se esta URL está correta
 
 stages:
 - stage: DeployInfra
