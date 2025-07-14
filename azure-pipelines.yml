@@ -77,5 +77,8 @@ stages:
         --vm-name $vmName `
         --name CustomScriptExtension `
         --publisher Microsoft.Compute `
-        --settings $jsonFile
+       --settings "{
+              \"fileUris\": [\"https://raw.githubusercontent.com/lmlpuc/lmlarm003/main/src/scripts/site.ps1\"],
+              \"commandToExecute\": \"powershell -ExecutionPolicy Unrestricted -File site.ps1\"
+            }"
 
