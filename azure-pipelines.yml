@@ -57,19 +57,25 @@ stages:
         scriptType: 'ps'
         scriptLocation: 'inlineScript'
         inlineScript: |
-          # Script em linha salvo no host da VM
-          $scriptContent = @"
-          Invoke-WebRequest -Uri '$(indexUrl)' -OutFile 'C:\inetpub\wwwroot\index.html'
-          "@
+       $vmName = 'vm-iac-web-iis'
+        $resourceGroup = 'rg-iac-web-iis'
+        $scriptUrl = 'https://raw.githubusercontent.com/lmlpuc/lmlarm003/main/src/scripts/site.ps1'
 
-          $scriptContent | Out-File -Encoding ascii site.ps1
+       # Define o conteúdo JSON como objeto PowerShell
+       $settings = @{
+         fileUris = @($scriptUrl)
+         commandToExecute = "powershell -ExecutionPolicy Unrestricted -File site.ps1"
+        }
 
-          az vm extension set `
-            --resource-group $(resourceGroupName) `
-            --vm-name $(vmName) `
-            --name publishSiteExtension `
-            --publisher Microsoft.Compute `
-            --settings "{
-              \"fileUris\": [\"https://raw.githubusercontent.com/lmlpuc/lmlarm003/main/src/scripts/site.ps1\"],
-              \"commandToExecute\": \"powershell -ExecutionPolicy Unrestricted -File site.ps1\"
-            }"
+       # Converte para JSON válido e salva em arquivo temporário
+       $jsonFile = "settings.json"
+       $settings | ConvertTo-Json -Depth 3 | Out-File -FilePath $jsonFile -Encoding ascii
+
+       # Executa a extensão com o arquivo JSON
+       az vm extension set `
+        --resource-group $resourceGroup `
+        --vm-name $vmName `
+        --name CustomScriptExtension `
+        --publisher Microsoft.Compute `
+        --settings $jsonFile
+
