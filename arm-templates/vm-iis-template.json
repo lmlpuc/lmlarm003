@@ -3,52 +3,26 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "resourceGroupName": {
-      "type": "string",
-      "defaultValue": "rg-iac-web-iis",
-      "metadata": {
-        "description": "Nome do Grupo de Recursos."
-      }
+      "type": "string"
     },
     "vmName": {
-      "type": "string",
-      "defaultValue": "vm-iac-web-iis",
-      "metadata": {
-        "description": "Nome da Máquina Virtual."
-      }
+      "type": "string"
     },
     "location": {
-      "type": "string",
-      "defaultValue": "[resourceGroup().location]",
-      "metadata": {
-        "description": "Localização dos recursos."
-      }
+      "type": "string"
     },
     "adminUsername": {
-      "type": "string",
-      "defaultValue": "azureuser",
-      "metadata": {
-        "description": "Nome de usuário administrador para a VM."
-      }
+      "type": "string"
     },
     "adminPassword": {
-      "type": "securestring",
-      "metadata": {
-        "description": "Senha administrador para a VM."
-      }
+      "type": "securestring"
     },
     "vmSku": {
-      "type": "string",
-      "defaultValue": "Standard_B1s",
-      "metadata": {
-        "description": "SKU da Máquina Virtual."
-      }
+      "type": "string"
     },
     "windowsOSVersion": {
       "type": "string",
-      "defaultValue": "2019-Datacenter",
-      "metadata": {
-        "description": "Versão do Windows Server."
-      }
+      "defaultValue": "2019-Datacenter"
     }
   },
   "variables": {
@@ -64,9 +38,6 @@
       "apiVersion": "2021-02-01",
       "name": "[variables('networkSecurityGroupName')]",
       "location": "[parameters('location')]",
-      "dependsOn": [
-        "[]"
-      ],
       "properties": {
         "securityRules": [
           {
@@ -105,14 +76,9 @@
       "apiVersion": "2021-02-01",
       "name": "[variables('vnetName')]",
       "location": "[parameters('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Resources/resourceGroups', parameters('resourceGroupName'))]"
-      ],
       "properties": {
         "addressSpace": {
-          "addressPrefixes": [
-            "10.0.0.0/16"
-          ]
+          "addressPrefixes": ["10.0.0.0/16"]
         },
         "subnets": [
           {
@@ -129,9 +95,6 @@
       "apiVersion": "2021-02-01",
       "name": "[variables('publicIpAddressName')]",
       "location": "[parameters('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Resources/resourceGroups', parameters('resourceGroupName'))]"
-      ],
       "properties": {
         "publicIPAllocationMethod": "Static",
         "dnsSettings": {
@@ -147,8 +110,7 @@
       "dependsOn": [
         "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIpAddressName'))]",
         "[resourceId('Microsoft.Network/virtualNetworks', variables('vnetName'))]",
-        "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]",
-        "[resourceId('Microsoft.Resources/resourceGroups', parameters('resourceGroupName'))]"
+        "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
       ],
       "properties": {
         "ipConfigurations": [
@@ -176,8 +138,7 @@
       "name": "[parameters('vmName')]",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Network/networkInterfaces', variables('networkInterfaceName'))]",
-        "[resourceId('Microsoft.Resources/resourceGroups', parameters('resourceGroupName'))]"
+        "[resourceId('Microsoft.Network/networkInterfaces', variables('networkInterfaceName'))]"
       ],
       "properties": {
         "hardwareProfile": {
