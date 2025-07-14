@@ -38,8 +38,8 @@ stages:
         resourceGroupName: '$(resourceGroupName)'
         location: '$(location)'
         templateLocation: 'Linked artifact'
-        csmFile: '$(templateFile)'
-        csmParametersFile: '$(parametersFile)'
+        csmFile: 'arm-templates/vm-iis-template.json'
+        csmParametersFile: 'arm-templates/vm-iis-parameters.json'
         deploymentMode: 'Incremental'
         deploymentName: 'vm-iis-deployment'
 
@@ -70,6 +70,6 @@ stages:
             --name publishSiteExtension `
             --publisher Microsoft.Compute `
             --settings "{
-              \"fileUris\": [\"https://raw.githubusercontent.com/lmlpuc/lmlarm003/main/scripts/site.ps1\"],
+              \"fileUris\": [\"https://raw.githubusercontent.com/lmlpuc/lmlarm003/main/src/scripts/site.ps1\"],
               \"commandToExecute\": \"powershell -ExecutionPolicy Unrestricted -File site.ps1\"
             }"

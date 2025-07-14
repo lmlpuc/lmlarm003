@@ -19,6 +19,9 @@
         },
         "vmSku": {
             "value": "Standard_B2ms"
+        },
+        "windowsOSVersion": {
+            "value": "2019-Datacenter"
         }
     }
 }
