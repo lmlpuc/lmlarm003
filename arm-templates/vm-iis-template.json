@@ -65,7 +65,7 @@
       "name": "[variables('networkSecurityGroupName')]",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Resources/resourceGroups', parameters('resourceGroupName'))]"
+        "[]"
       ],
       "properties": {
         "securityRules": [
